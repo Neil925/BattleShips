@@ -1,4 +1,10 @@
-#define _CRT_SECURE_NO_WARNINGS
+/*
+* Project Team: Neil, Bao, James, David
+* Date: 9/28/2023
+* Purpose: Making a really cool game!
+*/
+
+#define _CRT_SECURE_NO_WARNINGS 
 
 #include <stdio.h>
 #include <stdbool.h>
