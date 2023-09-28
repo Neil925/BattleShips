@@ -85,7 +85,7 @@ void displayGame(char gameBoard[10][10], Ship ships[5], Stats stats) {
 		printf("%s\n", divider);
 		printf("%2i |", i + 1);
 		for (int j = 0; j < COL; j++) {
-			if (gameBoard[i][j] == 'H' || gameBoard[i][j] == 'M')
+			if (gameBoard[i][j] == 'H' || gameBoard[i][j] == 'M') // H = hit, M = miss
 				printf(" %c |", gameBoard[i][j]);
 			else
 				printf("   |");
