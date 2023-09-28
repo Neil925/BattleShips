@@ -36,7 +36,9 @@ bool shipImpedes(char gameBoard[10][10], bool vert, int row, int col, int length
 
 void startGame(char gameBoard[10][10], Ship* pShips, Stats* pStats);
 
-void displayGame(char gameBoard[10][10], Ship ships[5], Stats stats);
+void userInput(char gameBoard[10][10], Ship pShips[5], Stats pStats);
+
+void displayGame(char gameBoard[10][10], Ship ships[5], Stats pstats);
 
 int main() {
 	srand(time(NULL));
@@ -52,13 +54,19 @@ int main() {
 
 	setupBoard(gameBoard, ships);
 	startGame(gameBoard, ships, &game);
-
+	
 	return 0;
 }
 
 void startGame(char gameBoard[10][10], Ship* pShips, Stats* pStats) {
 	displayGame(gameBoard, pShips, *pStats);
+	userInput(gameBoard, pShips, *pStats);
+}
 
+
+void userInput(char gameBoard[10][10], Ship pShips[5], Stats pStats) {
+	printf("\nEnter a letter than number: ");
+	scanf("%...");
 }
 
 void displayGame(char gameBoard[10][10], Ship ships[5], Stats stats) {
