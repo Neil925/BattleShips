@@ -1,5 +1,5 @@
 /*
-* Project Team: Neil, Bao, James, David
+* Project Team: Neil, Bao, James, David, Piers
 * Date: 9/28/2023
 * Purpose: Making a really cool game!
 */
