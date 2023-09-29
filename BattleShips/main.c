@@ -1,3 +1,9 @@
+/*
+* Project Team: Neil, Bao, James
+* Date: 9/28/2023
+* Purpose: Making a really cool game!
+*/
+
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <stdio.h>
