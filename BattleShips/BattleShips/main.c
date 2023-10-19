@@ -1,23 +1,19 @@
 /*
-* Project Team: Neil, Bao, James
 * Project Team: Neil, Bao, James, David, Piers
 * Date: 9/28/2023
 * Purpose: Making a really cool game!
 */
 
-#define _CRT_SECURE_NO_WARNINGS
+#define _CRT_SECURE_NO_WARNINGS 
 
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
-#include <ctype.h>
-#define CLS system("cls")
 
 #define ROW 10
 #define COL 10
-
 
 typedef struct {
 	char name[255];
@@ -44,11 +40,7 @@ void userInput(char gameBoard[10][10], Ship pShips[5], Stats pStats);
 
 void displayGame(char gameBoard[10][10], Ship ships[5], Stats pstats);
 
-void playGame(char[][COL], Ship ships[], Stats*);
-
-bool getInput(char[]);
-
-int getNum(char input[]);
+void playGame(char gameBoard[][COL], Ship[], Stats* pstats);
 
 
 int main() {
@@ -68,7 +60,10 @@ int main() {
 
 	playGame(gameBoard, ships, &game);
 
-  return 0;
+
+
+
+	return 0;
 }
 
 void startGame(char gameBoard[10][10], Ship* pShips, Stats* pStats) {
@@ -98,7 +93,7 @@ void displayGame(char gameBoard[10][10], Ship ships[5], Stats stats) {
 		printf("%s\n", divider);
 		printf("%2i |", i + 1);
 		for (int j = 0; j < COL; j++) {
-			if (gameBoard[i][j] == 'M' || gameBoard[i][j] == 'H') // H = hit, M = miss
+			if (gameBoard[i][j] == 'H' || gameBoard[i][j] == 'M') // H = hit, M = miss
 				printf(" %c |", gameBoard[i][j]);
 			else
 				printf("   |");
@@ -109,7 +104,7 @@ void displayGame(char gameBoard[10][10], Ship ships[5], Stats stats) {
 	for (int i = 0; i < 5; i++)
 		printf("\n%s (%c): %i", ships[i].name, ships[i].letter, ships[i].hits);
 
-	printf("\n\nShots Fired: %i\n", stats.shotsFired);
+	printf("\n\nShots Fired: %i", stats.shotsFired);
 }
 
 void setupBoard(char gameBoard[ROW][COL], Ship ships[5]) {
@@ -161,88 +156,62 @@ bool shipImpedes(char gameBoard[10][10], bool vert, int row, int col, int length
 
 
 void playGame(char gameBoard[][COL], Ship ships[], Stats* pstats) {
+	char userInput[2];
 
-	char playerInput[4];
+
+	printf("Please enter the column letter and row number: ");
+	scanf("%s", userInput);
+	_strupr(userInput);
 
 
-	// bool winGame = winGame();
-	// separate function to determine game win
 
-	while (strcmp(playerInput, "QQ") != 0 /*  || !winGame */) {
+	while (strlen(userInput) != 2) {
 
-		bool badInput = getInput(playerInput);
+		printf("Invald input!\n");
+		scanf("%s", userInput);
+		_strupr(userInput);
+	}
 
-		while (badInput == true)
-			badInput = getInput(playerInput);
 
-		if (strcmp(playerInput, "QQ") == 0)
-			return;
+	while (userInput != "QQ") {
 
-		int colLetter = playerInput[0] - 'A';
-		int rowNumber = getNum(playerInput);
 
-		switch (gameBoard[rowNumber][colLetter]) {
-		case ' ':
-			gameBoard[rowNumber][colLetter] = 'M';
-			pstats->shotsFired++;
-			break;
-		case 'M':
-			pstats->shotsFired++;
-			break;
-		case 'H':
-			pstats->shotsFired++;
-			break;
-		default:
-			gameBoard[rowNumber][colLetter] = 'H';
-			pstats->shotsFired++;
-			break;
+		if (userInput == "SS") {
+			//Run Save Here
+			continue;
 		}
 
+
+		int colLetter = userInput[0] - 'A';
+		int rowNumber = atoi(userInput[1]);
+
+		while (colLetter > 10 || rowNumber > 10) {
+			printf("Invald input!\n");
+			scanf("%s", userInput);
+			_strupr(userInput);
+		}
+
+		/*if (gameBoard[rowNumber][colLetter] == ' ') {
+			system("cls");
+			gameBoard[rowNumber][colLetter] = 'M';
+			pstats->shotsFired++;
+			displayGame(gameBoard, ships, *pstats);
+		}*/
+
+
+		/*system("cls");
+
+		for (int i = 0; i < 5; i++) {
+			if (gameBoard[rowNumber][colLetter] == ships[i].letter)
+				ships[i].hits++;
+
+		}
+		gameBoard[rowNumber][colLetter] == 'H';*/
 		displayGame(gameBoard, ships, *pstats);
-	}
-}
 
 
-bool getInput(char input[]) {
 
-	printf("Enter column letter + row number (Ex: A1) (QQ to quit): ");
-	scanf("%s", input);
-
-	_strupr(input);
-
-	if (strcmp(input, "QQ") == 0)
-		return false;
-
-
-	if (strlen(input) > 3 || strlen(input) == 0) {
-		printf("Invalid input!\n");
-		return true;
 	}
 
 
-	if (isalpha(input[0]) == 0 || isdigit(input[1]) == 0) {
-		printf("Invalid input!\n");
-		return true;
-	}
-
-	else if (input[0] - 'A' >= 10 || input[1] - '0' == 0) {
-		printf("Invalid input!\n");
-		return true;
-	}
-
-	else
-		return false;
-
-
-}
-
-int getNum(char input[]) {
-	int result;
-
-	if (strlen(input) == 2)
-		result = input[1] - '1';
-	else
-		result = 9;
-
-	return result;
 }
