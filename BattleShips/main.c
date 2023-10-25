@@ -68,12 +68,12 @@ int main() {
 
 	playGame(gameBoard, ships, &game);
 
-  return 0;
+	return 0;
 }
 
 void startGame(char gameBoard[10][10], Ship* pShips, Stats* pStats) {
 	displayGame(gameBoard, pShips, *pStats);
-	userInput(gameBoard, pShips, *pStats);
+	// userInput(gameBoard, pShips, *pStats);
 }
 
 
@@ -105,9 +105,14 @@ void displayGame(char gameBoard[10][10], Ship ships[5], Stats stats) {
 		}
 		printf("\n");
 	}
+	for (int i = 0; i < 5; i++) {
+		if (ships[i].length == ships[i].hits)
+			printf("\n%s (%c): Sunk", ships[i].name, ships[i].letter);
+		else
+			printf("\n%s (%c): Floating", ships[i].name, ships[i].letter);
 
-	for (int i = 0; i < 5; i++)
-		printf("\n%s (%c): %i", ships[i].name, ships[i].letter, ships[i].hits);
+	}
+
 
 	printf("\n\nShots Fired: %i\n", stats.shotsFired);
 }
@@ -193,11 +198,18 @@ void playGame(char gameBoard[][COL], Ship ships[], Stats* pstats) {
 			pstats->shotsFired++;
 			break;
 		default:
+
+			for (int i = 0; i < 5; i++) {
+				if (gameBoard[rowNumber][colLetter] == ships[i].letter)
+					ships[i].hits++;
+			}
+
 			gameBoard[rowNumber][colLetter] = 'H';
 			pstats->shotsFired++;
 			break;
 		}
 
+		CLS;
 		displayGame(gameBoard, ships, *pstats);
 	}
 }
@@ -214,18 +226,28 @@ bool getInput(char input[]) {
 		return false;
 
 
-	if (strlen(input) > 3 || strlen(input) == 0) {
+	else if (strlen(input) > 3 || strlen(input) == 0) {
 		printf("Invalid input!\n");
 		return true;
 	}
 
 
-	if (isalpha(input[0]) == 0 || isdigit(input[1]) == 0) {
+	else if (isalpha(input[0]) == 0 || isdigit(input[1]) == 0) {
 		printf("Invalid input!\n");
 		return true;
 	}
 
 	else if (input[0] - 'A' >= 10 || input[1] - '0' == 0) {
+		printf("Invalid input!\n");
+		return true;
+	}
+
+	else if (input[1] - '0' == 1 && input[2] - '0' > 0) {
+		printf("Invalid input!\n");
+		return true;
+	}
+
+	else if (input[1] - '0' > 1 && input[2] - '0' >= 0) {
 		printf("Invalid input!\n");
 		return true;
 	}
