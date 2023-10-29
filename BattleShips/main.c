@@ -179,12 +179,18 @@ void playGame(char gameBoard[ROW][COL], char originalGame[ROW][COL], Ship ships[
         bool badInput = getInput(playerInput);
 
         if (strcmp(playerInput, "SS") == 0) {
-            //save here
+            FILE* ptr = fopen("saveData.bin", "wb");
+            fwrite(gameBoard, sizeof(Ship), sizeof(Stats), ptr);
+            printf("The game data has been saved!");
+            fclose(ptr);
             continue;
         }
 
         if (strcmp(playerInput, "LL") == 0) {
-            //load here
+            FILE* ptr = fopen("saveData.bin", "rb");
+            fwrite(gameBoard, sizeof(Ship), sizeof(Stats), ptr);
+            printf("Previous game data has been loaded!");
+            fclose(ptr);
             continue;
         }
 
