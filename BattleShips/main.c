@@ -79,7 +79,7 @@ int main() {
 	if (game.needsNewGame)
 		resetGame(gameBoard, originalBoard, ships, &game);
 
-	displayGame(gameBoard, originalBoard, ships, game);
+
 	playGame(gameBoard, originalBoard, ships, &game);
 
 	notif("Thanks for playing!");
@@ -194,6 +194,15 @@ void playGame(char gameBoard[ROW][COL], char originalGame[ROW][COL], Ship ships[
 	while (strcmp(playerInput, "QQ") != 0 && !gameWon(ships)) {
 		bool badInput = validateInput(playerInput);
 
+
+		while (badInput == true) {
+			printf("\nBad coordinates!");
+			// clearInputBuffer();
+			system("pause > null");
+			badInput = validateInput(playerInput);
+		}
+
+
 		if (strcmp(playerInput, "CC") == 0) {
 			cheatPrint(originalGame);
 			continue;
@@ -219,12 +228,7 @@ void playGame(char gameBoard[ROW][COL], char originalGame[ROW][COL], Ship ships[
 		if (strcmp(playerInput, "QQ") == 0)
 			return;
 
-		while (badInput == true) {
-			printf("\nBad coordinates!");
-			// clearInputBuffer();
-			system("pause > null");
-			badInput = validateInput(playerInput);
-		}
+		
 
 		int colLetter = playerInput[0] - 'A';
 		int rowNumber = getNum(playerInput);
@@ -307,8 +311,8 @@ void gameOver(char gameBoard[10][10], char originalGame[10][10], Ship* ships, St
 	scanf("%c", &input);
 
 	if (toupper(input) == 'Y') {
+		CLS;
 		resetGame(gameBoard, originalGame, ships, pstats);
-		displayGame(gameBoard, originalGame, ships, *pstats);
 		playGame(gameBoard, originalGame, ships, pstats);
 	}
 }
@@ -366,11 +370,15 @@ void loadGame(char gameBoard[10][10], char originalBoard[10][10], Ship* ships, S
 
 	else {
 		notif("Game load successful!");
+		pause(1);
+		CLS;
+		// displayGame(gameBoard, originalBoard, ships, *pstats);
 		return;
 	}
 
-
+	
 	fclose(ptr);
+	
 }
 
 void saveGame(char gameBoard[10][10], char originalBoard[10][10], Ship ships[5], Stats stats) {
@@ -437,12 +445,12 @@ void formatInput(char* input) {
 bool validateInput(char input[]) {
 
 	char getInput[] = "\n[QQ]: Quit"
-					  "\n[SS]: Save Game"
-					  "\n[LL]: Load Game"
-					  "\n[RR]: Reset Game"
-				      "\n[CC]: Cheat Print"
-					  "\n\nEnter coordinates to fire (Ex: A1): ";
-					
+		"\n[SS]: Save Game"
+		"\n[LL]: Load Game"
+		"\n[RR]: Reset Game"
+		"\n[CC]: Cheat Print"
+		"\n\nEnter coordinates to fire (Ex: A1): ";
+
 	printf(getInput);
 	scanf("%s", input);
 
